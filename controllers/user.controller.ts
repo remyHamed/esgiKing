@@ -26,7 +26,7 @@ export class UserController {
 
     buildRoutes(): Router {
         const router = express.Router();
-        router.post('/', express.json(), this.createUser.bind(this)); // permet de forcer le this lors de l'appel de la fonction sayHello
+        router.post('/create', express.json(), this.createUser.bind(this)); // permet de forcer le this lors de l'appel de la fonction sayHello
         return router;
     }
 }

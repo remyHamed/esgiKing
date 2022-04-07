@@ -1,3 +1,5 @@
+import {UserController} from "./controllers/user.controller";
+
 console.log("ok");import {config} from "dotenv";
 config();
 
@@ -13,6 +15,12 @@ async function startServer(): Promise<void> {
         }
     });
     const app = express();
+
+    const userController = new UserController();
+    app.use('/user', userController.buildRoutes()); // enregistrement d'un routeur
+    //const authController = new AuthController();
+    //app.use('/auth', authController.buildRoutes())
+
     app.listen(process.env.PORT, function() {
         console.log("Server listening on port " + process.env.PORT);
     });
