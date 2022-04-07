@@ -1,11 +1,12 @@
 import express, {Router, Request, Response} from "express";
+import {UserService} from "../services";
 
 
 export class UserController {
 
     async createUser(req: Request, res: Response) {
         const userBody = req.body;
-        if(!UserBody.name || !userBody.intensity || !userBody.price) {
+        if(!userBody.firstName || !userBody.lastName || !userBody.mail || !userBody.password) {
             res.status(400).end(); // 400 -> bad request
             return;
         }

@@ -32,4 +32,4 @@ export interface UserProps {
 
 export type UserDocument = UserProps & Document;
 
-export const CoffeeModel: Model<UserDocument> = mongoose.model<UserDocument>("User", userSchema);
+export const UserModel: Model<UserDocument> = mongoose.model<UserDocument>("User", userSchema);
