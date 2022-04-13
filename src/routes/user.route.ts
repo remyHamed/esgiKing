@@ -24,4 +24,19 @@ userRoute.route('/')
         }
     });
 
+userRoute.route('/auth')
+    .post(express.json(),async (req,res) => {
+        const userBody = req.body;
+
+        if(!userBody.mail || !userBody.password) {
+            return res.status(400).send('Missing data').end();
+        }
+        try {
+            const user = await UserService.getInstance().logIn({...userBody});
+            return res.json(user);
+        } catch(err) {
+            return res.status(400).send(err).end();
+        }
+    });
+
 export default userRoute;
