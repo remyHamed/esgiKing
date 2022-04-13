@@ -31,5 +31,4 @@ export interface UserProps {
 }
 
 export type UserDocument = UserProps & Document;
-
 export const UserModel: Model<UserDocument> = mongoose.model<UserDocument>("User", userSchema);
