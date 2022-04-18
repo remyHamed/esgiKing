@@ -1,6 +1,14 @@
 import mongoose, {Schema, Document, Model} from "mongoose";
 
 const userSchema = new Schema({
+    superUser: {
+        type: Schema.Types.Boolean,
+        required: true
+    },
+    role: {
+        type: Schema.Types.String,
+        required: true
+    },
     firstName: {
         type: Schema.Types.String,
         required: true
@@ -24,6 +32,7 @@ const userSchema = new Schema({
 });
 
 export interface UserProps {
+    role: string,
     firstName: string,
     lastName: string,
     mail: string,

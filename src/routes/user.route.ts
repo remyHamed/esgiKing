@@ -25,7 +25,12 @@ userRoute.route('/')
             const user = await UserService.getInstance().createUser({...userBody});
             return res.status(StatusCodes.CREATED).json(user);
         } catch(err) {
-            if(err === "Incorrect email format" || err === "Incorrect password format") {
+            if(
+                err === "Incorrect email format" ||
+                err === "Incorrect password format" ||
+                err === "Incorrect first name format" ||
+                err === "Incorrect last name format"
+            ) {
                 return res.status(StatusCodes.BAD_REQUEST).send({error: err}).end();
             }
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: err}).end();

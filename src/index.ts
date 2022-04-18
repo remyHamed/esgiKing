@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import {config} from "dotenv";
 import userRoute from "./routes/user.route";
+import {UserModel} from "./model/user.model";
 config();
 
 async function bootstrap(): Promise<void> {
@@ -15,6 +16,8 @@ async function bootstrap(): Promise<void> {
             password: process.env.MONGO_PASSWORD
         }
     });
+
+    // TODO create admin(super user)
 
     // Routes additions
     app.use('/user', userRoute);
