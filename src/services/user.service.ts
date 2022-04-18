@@ -1,5 +1,6 @@
 import {UserDocument, UserModel, UserProps} from "../model/user.model";
-import {SessionModel} from "../model/session.model";
+import {SessionDocument, SessionModel} from "../model/session.model";
+import {isValidEmail, isValidPassword} from "../lib/regex";
 
 export class UserService {
     private static instance?: UserService;
@@ -11,8 +12,16 @@ export class UserService {
         return UserService.instance;
     }
 
-    public async createUser(props: UserProps): Promise<UserDocument> {
-        const model = new UserModel(props);
+    public async createUser(user: UserProps): Promise<UserDocument> {
+        const model = new UserModel(user);
+
+        if (!isValidEmail(user.mail)) {
+            throw "Incorrect email format";
+        }
+        else if (!isValidPassword(user.password)) {
+            throw "Incorrect password format";
+        }
+
         return await model.save();
     }
 
@@ -20,10 +29,10 @@ export class UserService {
         return UserModel.find({});
     }
 
-    public async logIn(info: {mail: string, password: string}): Promise<any> {
+    public async logIn(info: {mail: string, password: string}): Promise<SessionDocument> {
         const user = await UserModel.findOne({...info});
         if(!user) {
-            throw Error("Mail or Password is wrong");
+            throw "Incorrect email or password";
         }
 
         const date = new Date();
