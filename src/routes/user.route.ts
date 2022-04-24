@@ -8,6 +8,7 @@ import {
 const userRoute = Router();
 
 userRoute.route('/')
+
     .get(async (req,res) => {
         try {
             return res.status(StatusCodes.OK).json(await UserService.getInstance().getUsers());
@@ -15,15 +16,21 @@ userRoute.route('/')
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: err}).end();
         }
     })
+
     .post(express.json(),async (req,res) => {
         const userBody = req.body;
+
         if(!userBody.firstName || !userBody.lastName || !userBody.mail || !userBody.password) {
+
             return res.status(StatusCodes.BAD_REQUEST).send(ReasonPhrases.BAD_REQUEST).end();
         }
 
         try {
+
             const user = await UserService.getInstance().createUser({...userBody});
+
             return res.status(StatusCodes.CREATED).json(user);
+
         } catch(err) {
             if(
                 err === "Incorrect email format" ||
