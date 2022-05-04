@@ -17,4 +17,4 @@ export interface ProductProps {
 }
 
 export type ProductDocument = ProductProps & Document;
-export const ProductModel: Model<ProductDocument> = mongoose.model<ProductDocument>("Ingredient", productSchema);
+export const ProductModel: Model<ProductDocument> = mongoose.model<ProductDocument>("Product", productSchema);
