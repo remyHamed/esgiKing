@@ -52,13 +52,21 @@ userRoute.route('/auth')
         }
 
         try {
+
             const user = await UserService.getInstance().logIn({...userBody});
+
             return res.json(user);
+
         } catch(err) {
+
             if(err === "Incorrect mail or password") {
+
                 return res.status(StatusCodes.BAD_REQUEST).send({error: err}).end();
+
             }
+
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: err}).end();
+
         }
     });
 

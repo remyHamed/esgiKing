@@ -31,9 +31,13 @@ export class UserService {
         else if (!isValidName(user.lastName)) {
             throw "Incorrect last name format";
         }
-        else if(await UserModel.find({mail:user.mail})) {
+
+        let check = await UserModel.find({mail:user.mail});
+
+        console.log(check);
+
+        if(check.length > 0)
             throw "An user with this mail is already registered";
-        }
 
         model.password = SecurityUtils.sha512(user.password);
         return await model.save();

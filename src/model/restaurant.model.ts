@@ -1,4 +1,5 @@
 import mongoose, {Schema, Document, Model} from "mongoose";
+import {MenuDocument} from "./menu.model";
 
 const restaurantSchema = new Schema({
 
@@ -39,12 +40,12 @@ const restaurantSchema = new Schema({
 export interface RestaurantProps {
     address: string,
     longitude: string,
-    latitude:string,
-    name:string,
+    latitude: string,
+    name: string,
     price: number,
-    menuList:,
-    commandList:
+    menuList: string | Array<MenuDocument> ,
+    commandList: string | Array<MenuDocument>
 }
 
 export type RestaurantDocument = RestaurantProps & Document;
-export const UserModel: Model<RestaurantDocument> = mongoose.model<RestaurantDocument>("Restaurant", restaurantSchema);
+export const RestaurantModel: Model<RestaurantDocument> = mongoose.model<RestaurantDocument>("Restaurant", restaurantSchema);
