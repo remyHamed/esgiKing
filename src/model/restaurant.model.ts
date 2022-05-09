@@ -1,5 +1,5 @@
 import mongoose, {Schema, Document, Model} from "mongoose";
-import {MenuDocument} from "./menu.model";
+import {MenuDocument, MenuProps} from "./menu.model";
 
 const restaurantSchema = new Schema({
 
@@ -19,16 +19,12 @@ const restaurantSchema = new Schema({
         type: Schema.Types.String,
         required: true
     },
-    price: {
-        type: Schema.Types.Number,
-        required: true
-    },
     menuList: {
-        type: Schema.Types.String,
+        type: [String],
         required: true
     },
     commandList: {
-        type: Schema.Types.String,
+        type: [String],
         required: true
     }
 }, {
@@ -42,9 +38,8 @@ export interface RestaurantProps {
     longitude: string,
     latitude: string,
     name: string,
-    price: number,
-    menuList: string | Array<MenuDocument> ,
-    commandList: string | Array<MenuDocument>
+    menuList: string | Array<MenuProps> ,
+    commandList: string | Array<MenuProps>
 }
 
 export type RestaurantDocument = RestaurantProps & Document;

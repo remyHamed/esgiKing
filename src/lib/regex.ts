@@ -1,6 +1,8 @@
 const emailRegex = /^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-](\.?[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-])*@[a-zA-Z0-9](\.?[a-zA-Z0-9])*\.[a-zA-Z0-9][a-zA-Z0-9]+$/;
 const nameRegex = /^[a-zA-Z]+([- '][a-zA-Z]+)*$/;
 const roleRegex = /^admin|delivery|customer$/;
+const gpsRegex = /^\d+[.]\d+[,]\d+[.]\d+$/;
+
 
 export function isValidEmail(email: string): boolean {
     return emailRegex.test(email);
@@ -34,4 +36,8 @@ export function isValidName(name: string) {
         return false
 
     return nameRegex.test(name);
+}
+
+export function isValidGPSFomrat(coordinates: string): boolean {
+    return gpsRegex.test(coordinates);
 }
