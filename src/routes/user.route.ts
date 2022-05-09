@@ -47,8 +47,10 @@ userRoute.route('/')
 userRoute.route('/:user_id/:user_id_delete')
     .delete( async (req,res) => {
     try {
-        console.log("ok","user_id",req.params.user_id ,"user_id_delete",req.params.user_id_delete );
         //   return res.status(StatusCodes.OK).json(await UserService.getInstance().getUsers());
+        const result = await UserService.getInstance().delete(req.params.user_id, req.params.user_id_delete);
+        console.log("reulsssss " ,result);
+        return res.status(StatusCodes.OK).json(result);
 
     } catch(err) {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: err}).end();

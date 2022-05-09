@@ -36,7 +36,8 @@ export interface UserProps {
     firstName: string,
     lastName: string,
     mail: string,
-    password: string
+    password: string,
+    superUser:boolean
 }
 
 export type UserDocument = UserProps & Document;

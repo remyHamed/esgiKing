@@ -61,19 +61,59 @@ export class UserService {
         const session = new SessionModel({
             user: user._id,
             platform: 'insomnia',
-            expiration: date.setDate(date.getDate()+1)
+            expiration: date.setDate(date.getDate() + 1)
         });
 
         return await session.save();
     }
 
-    public async delete(userId: string,userDeleteId: string): Promise<boolean> {
+    public async delete(userId: string,userDeleteId: string): Promise<UserDocument|string|null|undefined> {
 
-        const user = this.getById(userId);
+        const user = await this.getById(userId);
 
-        console.log("user correpson à ", user);
+        if (user === null) {
+            return 'User not found';
+        }
 
-        return true
-        //UserModel.findOneAndDelete(userId);
-    };
+        const userDelete = await this.getById(userDeleteId);
+
+        if (userDelete === null) {
+            return 'User to delete not found';
+        }
+
+        if (user.role === "admin" ||
+            user.id === userDelete.id ||
+            user.superUser === true
+        ) {
+            UserModel.findOneAndRemove({_id: userDelete?._id})
+                .exec(function (err, item:UserDocument) {
+                    if (err) {
+                        throw err;
+                    }
+                    if (!item) {
+                        return 'User not found';
+                    }
+                    return item;
+                });
+        } else {
+            throw "error not allowed";
+        }
+    }
 }
+       // const nbdelete = UserModel.deleteOne({_id: userDelete?._id});
+
+     //   const check = await this.getById(userDeleteId);
+
+    // console.log("nbdelete correspond à ", nbdelete);
+
+    //console.log("check correspond à ", check);
+
+    // if( nbdelete === 1 && check === null ) {
+    //       return userDelete;
+    // } else {
+      //      throw "error not delete"
+    //   }
+       // let result = await UserModel.findOneAndDelete();
+       // console.log("resultat du delete" , result);
+       // return user;
+
