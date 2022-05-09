@@ -83,37 +83,12 @@ export class UserService {
 
         if (user.role === "admin" ||
             user.id === userDelete.id ||
-            user.superUser === true
+            user.superUser
         ) {
-            UserModel.findOneAndRemove({_id: userDelete?._id})
-                .exec(function (err, item:UserDocument) {
-                    if (err) {
-                        throw err;
-                    }
-                    if (!item) {
-                        return 'User not found';
-                    }
-                    return item;
-                });
+            return UserModel.findOneAndRemove({_id: userDelete?._id});
         } else {
             throw "error not allowed";
         }
     }
 }
-       // const nbdelete = UserModel.deleteOne({_id: userDelete?._id});
-
-     //   const check = await this.getById(userDeleteId);
-
-    // console.log("nbdelete correspond à ", nbdelete);
-
-    //console.log("check correspond à ", check);
-
-    // if( nbdelete === 1 && check === null ) {
-    //       return userDelete;
-    // } else {
-      //      throw "error not delete"
-    //   }
-       // let result = await UserModel.findOneAndDelete();
-       // console.log("resultat du delete" , result);
-       // return user;
 
