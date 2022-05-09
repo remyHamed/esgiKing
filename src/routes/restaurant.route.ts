@@ -4,10 +4,11 @@ import {
     ReasonPhrases,
     StatusCodes
 } from 'http-status-codes';
+import {RestaurantService} from "../services/restaurant.service";
 
-const userRoute = Router();
+const restaurantRoute = Router();
 
-userRoute.route('/')
+restaurantRoute.route('/')
 
     .get(async (req,res) => {
         try {
@@ -18,25 +19,33 @@ userRoute.route('/')
     })
 
     .post(express.json(),async (req,res) => {
-        const userBody = req.body;
-
-        if(!userBody.firstName || !userBody.lastName || !userBody.mail || !userBody.password) {
+        const restaurantBody = req.body;
+        if(
+            !restaurantBody.zipCode ||
+            !restaurantBody.num ||
+            !restaurantBody.address ||
+            !restaurantBody.longitude ||
+            !restaurantBody.latitude ||
+            !restaurantBody.name ||
+            !restaurantBody.commandList ||
+            !restaurantBody.menuList) {
 
             return res.status(StatusCodes.BAD_REQUEST).send(ReasonPhrases.BAD_REQUEST).end();
         }
 
         try {
 
-            const user = await UserService.getInstance().createUser({...userBody});
+            const restaurant = await RestaurantService.getInstance().createRestaurant({...restaurantBody});
 
-            return res.status(StatusCodes.CREATED).json(user);
+            return res.status(StatusCodes.CREATED).json(restaurant);
 
         } catch(err) {
             if(
-                err === "Incorrect email format" ||
-                err === "Incorrect password format" ||
-                err === "Incorrect first name format" ||
-                err === "Incorrect last name format"
+                err === "Incorrect longitude" ||
+                err === "Incorrect latitude" ||
+                err === "Incorrect address too long" ||
+                err === "Incorrect name too long" ||
+                err === "Incorrect name too long"
             ) {
                 return res.status(StatusCodes.BAD_REQUEST).send({error: err}).end();
             }
@@ -44,14 +53,13 @@ userRoute.route('/')
         }
     });
 
-userRoute.route('/:u_id')
+restaurantRoute.route('/:u_id')
     .get( async (req,res) => {
 
+        const r = await RestaurantService.getInstance().getById(req.params.u_id);
 
-        const u = await UserService.getInstance().getById(req.params.u_id);
-
-        if (u != null) {
-            return res.status(StatusCodes.OK).json(u);
+        if (r != null) {
+            return res.status(StatusCodes.OK).json(r);
         }else {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: "not found"}).end();
         }
@@ -59,7 +67,7 @@ userRoute.route('/:u_id')
 
     });
 
-userRoute.route('/:user_id/:user_id_delete')
+restaurantRoute.route('/:user_id/:user_id_delete')
     .delete( async (req,res) => {
         try {
             //   return res.status(StatusCodes.OK).json(await UserService.getInstance().getUsers());
@@ -72,7 +80,7 @@ userRoute.route('/:user_id/:user_id_delete')
         }
     });
 
-userRoute.route('/auth')
+restaurantRoute.route('/auth')
     .post(express.json(),async (req,res) => {
         const userBody = req.body;
         if(!userBody.mail || !userBody.password) {
@@ -98,4 +106,4 @@ userRoute.route('/auth')
         }
     });
 
-export default userRoute;
+export default restaurantRoute;

@@ -24,9 +24,8 @@ export class RestaurantService {
         }
 
         if (!isValidGPSFomrat(restaurant.latitude)) {
-            throw "Incorrect longitude";
+            throw "Incorrect latitude";
         }
-
         else if (!sizeCheck(restaurant.address)) {
             throw "Incorrect address too long";
         }
@@ -36,18 +35,14 @@ export class RestaurantService {
         else if (!sizeCheck(restaurant.address)) {
             throw "Incorrect address too long";
         }
-        else if (!sizeCheck(restaurant.address)) {
-            throw "Incorrect address too long";;
-        }
 
-        let check = await UserModel.find({mail:user.mail});
+        let check = await RestaurantModel.find({zipCode:restaurant.zipCode, num:restaurant.num});
 
-        console.log(check);
+        console.log("dans restaurant service check == ",check);
 
         if(check.length > 0)
-            throw "An user with this mail is already registered";
+            throw "An user with zipCode and num is already registered";
 
-        model.password = SecurityUtils.sha512(user.password);
         return await model.save();
     }
 
