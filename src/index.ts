@@ -22,6 +22,10 @@ async function bootstrap(): Promise<void> {
     // Routes additions
     app.use('/user', userRoute);
 
+    const listEndpoints = require("express-list-endpoints"); // npm i express-list-endpoints
+console.log(listEndpoints(app));
+    
+
     // Port Listening
     app.listen(process.env.PORT, function() {
         console.log("Server listening on port " + process.env.PORT);

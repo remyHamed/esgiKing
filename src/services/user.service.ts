@@ -47,6 +47,10 @@ export class UserService {
         return UserModel.find({});
     }
 
+    async getById(userId: string): Promise<UserDocument | null> {
+        return UserModel.findById(userId).exec();
+    }
+
     public async logIn(info: {mail: string, password: string}): Promise<SessionDocument> {
         const user = await UserModel.findOne({...info});
         if(!user) {
@@ -62,4 +66,14 @@ export class UserService {
 
         return await session.save();
     }
+
+    public async delete(userId: string,userDeleteId: string): Promise<boolean> {
+
+        const user = this.getById(userId);
+
+        console.log("user correpson à ", user);
+
+        return true
+        //UserModel.findOneAndDelete(userId);
+    };
 }
