@@ -44,12 +44,27 @@ userRoute.route('/')
         }
     });
 
+userRoute.route('/:u_id')
+    .get( async (req,res) => {
+
+
+            const u = await UserService.getInstance().getById(req.params.u_id);
+
+            if (u != null) {
+                return res.status(StatusCodes.OK).json(u);
+            }else {
+                return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: "not found"}).end();
+            }
+
+
+    });
+
 userRoute.route('/:user_id/:user_id_delete')
     .delete( async (req,res) => {
     try {
         //   return res.status(StatusCodes.OK).json(await UserService.getInstance().getUsers());
         const result = await UserService.getInstance().delete(req.params.user_id, req.params.user_id_delete);
-        console.log("reulsssss " ,result);
+
         return res.status(StatusCodes.OK).json(result);
 
     } catch(err) {

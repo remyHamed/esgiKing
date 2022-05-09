@@ -53,11 +53,13 @@ export class UserService {
 
     public async logIn(info: {mail: string, password: string}): Promise<SessionDocument> {
         const user = await UserModel.findOne({...info});
+
         if(!user) {
             throw "Incorrect email or password";
         }
 
         const date = new Date();
+
         const session = new SessionModel({
             user: user._id,
             platform: 'insomnia',
