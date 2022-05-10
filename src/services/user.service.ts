@@ -13,7 +13,7 @@ export class UserService {
         return UserService.instance;
     }
 
-    public async createUser(user: UserProps): Promise<UserDocument> {
+    public async createUser(user: UserProps): Promise<UserDocument> { //TODO bloquer la creation de super User en aurisant la création que d'un seul
         const model = new UserModel(user);
 
         if (!isValidRole(user.role)) {
@@ -33,8 +33,6 @@ export class UserService {
         }
 
         let check = await UserModel.find({mail:user.mail});
-
-        console.log(check);
 
         if(check.length > 0)
             throw "An user with this mail is already registered";

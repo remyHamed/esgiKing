@@ -55,7 +55,7 @@ export class RestaurantService {
         return RestaurantModel.findById(restaurantId).exec();
     }
 
-    public async delete(userId: string,restaurantId: string): Promise<UserDocument|string|null|undefined> {
+    public async delete(userId: string,restaurantId: string): Promise<RestaurantDocument|string|null|undefined> {
 
         const user = await UserService.getInstance().getById(userId);
 
@@ -67,13 +67,13 @@ export class RestaurantService {
 
         if (restaurantDelete === null) {
 
-            return 'User to delete not found';
+            return 'restaurant to delete not found';
 
         }
 
         if (user.superUser) {
 
-            return UserModel.findOneAndRemove({_id: restaurantDelete?._id});
+            return RestaurantModel.findOneAndRemove({_id: restaurantDelete?._id});
 
         } else {
 

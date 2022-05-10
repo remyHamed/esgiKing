@@ -73,11 +73,11 @@ restaurantRoute.route('/:u_id')
 
     });
 
-restaurantRoute.route('/:user_id/:user_id_delete')
+restaurantRoute.route('/:user_id/:restaurant_id_delete')
     .delete( async (req,res) => {
         try {
             //   return res.status(StatusCodes.OK).json(await UserService.getInstance().getUsers());
-            const result = await UserService.getInstance().delete(req.params.user_id, req.params.user_id_delete);
+            const result = await RestaurantService.getInstance().delete(req.params.user_id, req.params.restaurant_id_delete);
 
             return res.status(StatusCodes.OK).json(result);
 
@@ -86,30 +86,6 @@ restaurantRoute.route('/:user_id/:user_id_delete')
         }
     });
 
-restaurantRoute.route('/auth')
-    .post(express.json(),async (req,res) => {
-        const userBody = req.body;
-        if(!userBody.mail || !userBody.password) {
-            return res.status(StatusCodes.BAD_REQUEST).send(ReasonPhrases.BAD_REQUEST).end();
-        }
 
-        try {
-
-            const user = await UserService.getInstance().logIn({...userBody});
-
-            return res.json(user);
-
-        } catch(err) {
-
-            if(err === "Incorrect mail or password") {
-
-                return res.status(StatusCodes.BAD_REQUEST).send({error: err}).end();
-
-            }
-
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: err}).end();
-
-        }
-    });
 
 export default restaurantRoute;
