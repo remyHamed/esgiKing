@@ -1,19 +1,25 @@
-/*import mongoose, {Schema, Document, Model} from "mongoose";
-import {productDocument} from "./product.model";
-import {MenuModel} from "./menu.model";
+import mongoose, {Schema, Document, Model} from "mongoose";
+
 
 const commandsSchema = new Schema({
-
     productList: {
-        type: Schema.Types.DocumentArray,
+        type: Schema.Types.String,
         required: true
     },
     menuList: {
-    type: MenuModel,
+    type: Schema.Types.String,
         required: true
     },
     total: {
         type: Schema.Types.Number,
+        required: true
+    },
+    payed: {
+        type: Schema.Types.String,
+        required: true
+    },
+    restaurant: {
+        type: Schema.Types.String,
         required: true
     }
 }, {
@@ -23,10 +29,11 @@ const commandsSchema = new Schema({
 });
 
 export interface CommandProps {
-    productList: Array<productDocument>,
-    menuList: Array<MenuDocument>,
-    total: number |
+    productList: string,
+    menuList: string,
+    total: number,
+    payed: boolean
 }
 
-export type MenuDocument = MenuProps & Document;
-export const MenuModel: Model<MenuDocument> = mongoose.model<MenuDocument>("Restaurant", menuSchema);*/
+export type CommandDocument = CommandProps & Document;
+export const CommandModel: Model<CommandDocument> = mongoose.model<CommandDocument>("Restaurant", commandsSchema);

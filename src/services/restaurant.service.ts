@@ -3,6 +3,7 @@ import {RestaurantDocument, RestaurantModel, RestaurantProps} from "../model/res
 import {SessionDocument, SessionModel} from "../model/session.model";
 import {isValidGPSFomrat} from "../lib/regex";
 import {sizeCheck} from "../lib/validator"
+import {UserService} from "./user.service";
 
 
 export class RestaurantService {
@@ -38,61 +39,46 @@ export class RestaurantService {
 
         let check = await RestaurantModel.find({zipCode:restaurant.zipCode, num:restaurant.num});
 
-        console.log("dans restaurant service check == ",check);
-
         if(check.length > 0)
             throw "An user with zipCode and num is already registered";
 
         return await model.save();
     }
 
-    public async getUsers(): Promise<UserDocument[]> {
-        return UserModel.find({});
+    public async getRestaurants(): Promise<RestaurantDocument[]> {
+
+        return RestaurantModel.find({});
+
     }
 
-    async getById(userId: string): Promise<UserDocument | null> {
-        return UserModel.findById(userId).exec();
+    async getById(restaurantId: string): Promise<RestaurantDocument | null> {
+        return RestaurantModel.findById(restaurantId).exec();
     }
 
-    public async logIn(info: {mail: string, password: string}): Promise<SessionDocument> {
-        const user = await UserModel.findOne({...info});
+    public async delete(userId: string,restaurantId: string): Promise<UserDocument|string|null|undefined> {
 
-        if(!user) {
-            throw "Incorrect email or password";
-        }
+        const user = await UserService.getInstance().getById(userId);
 
-        const date = new Date();
-
-        const session = new SessionModel({
-            user: user._id,
-            platform: 'insomnia',
-            expiration: date.setDate(date.getDate() + 1)
-        });
-
-        return await session.save();
-    }
-
-    public async delete(userId: string,userDeleteId: string): Promise<UserDocument|string|null|undefined> {
-
-        const user = await this.getById(userId);
-
-        if (user === null) {
+        if(user === null) {
             return 'User not found';
         }
 
-        const userDelete = await this.getById(userDeleteId);
+        const restaurantDelete = await this.getById(restaurantId);
 
-        if (userDelete === null) {
+        if (restaurantDelete === null) {
+
             return 'User to delete not found';
+
         }
 
-        if (user.role === "admin" ||
-            user.id === userDelete.id ||
-            user.superUser
-        ) {
-            return UserModel.findOneAndRemove({_id: userDelete?._id});
+        if (user.superUser) {
+
+            return UserModel.findOneAndRemove({_id: restaurantDelete?._id});
+
         } else {
+
             throw "error not allowed";
+
         }
     }
 }

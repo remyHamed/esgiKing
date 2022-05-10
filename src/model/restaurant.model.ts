@@ -1,5 +1,5 @@
 import mongoose, {Schema, Document, Model} from "mongoose";
-import {MenuDocument, MenuProps} from "./menu.model";
+
 
 const restaurantSchema = new Schema({
     zipCode: {

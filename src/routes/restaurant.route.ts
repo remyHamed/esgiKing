@@ -12,14 +12,16 @@ restaurantRoute.route('/')
 
     .get(async (req,res) => {
         try {
-            return res.status(StatusCodes.OK).json(await UserService.getInstance().getUsers());
+            return res.status(StatusCodes.OK).json(await RestaurantService.getInstance().getRestaurants());
         } catch(err) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: err}).end();
         }
     })
 
     .post(express.json(),async (req,res) => {
+
         const restaurantBody = req.body;
+
         if(
             !restaurantBody.zipCode ||
             !restaurantBody.num ||
@@ -28,7 +30,8 @@ restaurantRoute.route('/')
             !restaurantBody.latitude ||
             !restaurantBody.name ||
             !restaurantBody.commandList ||
-            !restaurantBody.menuList) {
+            !restaurantBody.menuList
+        ) {
 
             return res.status(StatusCodes.BAD_REQUEST).send(ReasonPhrases.BAD_REQUEST).end();
         }
@@ -47,8 +50,11 @@ restaurantRoute.route('/')
                 err === "Incorrect name too long" ||
                 err === "Incorrect name too long"
             ) {
+
                 return res.status(StatusCodes.BAD_REQUEST).send({error: err}).end();
+
             }
+
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: err}).end();
         }
     });
