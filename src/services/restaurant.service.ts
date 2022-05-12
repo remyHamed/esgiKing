@@ -1,9 +1,10 @@
-import {UserDocument, UserModel, UserProps} from "../model/user.model";
-import {RestaurantDocument, RestaurantModel, RestaurantProps} from "../model/restaurant.model";
+import {CommandModel, RestaurantDocument, RestaurantModel, RestaurantProps} from "../model";
 import {SessionDocument, SessionModel} from "../model/session.model";
-import {isValidGPSFomrat} from "../lib/regex";
-import {sizeCheck} from "../lib/validator"
+import {isValidGPSFomrat} from "../lib";
+import {sizeCheck} from "../lib"
 import {UserService} from "./user.service";
+import {CommandProps} from "../model/command.model";
+import {CommandeService} from "./command.service";
 
 
 export class RestaurantService {
@@ -55,19 +56,28 @@ export class RestaurantService {
         return RestaurantModel.findById(restaurantId).exec();
     }
 
+    async update(restaurant: RestaurantDocument): Promise<RestaurantDocument | null> {
+
+        const filter = {"_id": restaurant._id}
+
+        console.log("step udate filder ", filter,"restaurant" , restaurant);
+
+        return RestaurantModel.findOneAndUpdate(filter,restaurant);
+    }
+
     public async delete(userId: string,restaurantId: string): Promise<RestaurantDocument|string|null|undefined> {
 
         const user = await UserService.getInstance().getById(userId);
 
         if(user === null) {
-            return 'User not found';
+            throw 'User not found';
         }
 
         const restaurantDelete = await this.getById(restaurantId);
 
         if (restaurantDelete === null) {
 
-            return 'restaurant to delete not found';
+            throw 'restaurant to delete not found';
 
         }
 
@@ -81,5 +91,30 @@ export class RestaurantService {
 
         }
     }
-}
+
+    /*public async terminalAddCommand( command: CommandProps, restaurantId: string): Promise<RestaurantDocument |null|string> {
+
+        const restaurant = await RestaurantModel.findById(restaurantId).exec();
+
+        if (restaurant !== null) {
+
+            const commandToAdd = await CommandeService.getInstance().createCommand(command);
+
+            if (commandToAdd === null) {
+
+                throw 'fail save command';
+
+            }
+            const restaurantUpdated  = restaurant.commandList.push(commandToAdd.id.toString())
+
+            return this.getInstance().update(restaurantUpdated,restaurantUpdated);
+
+        } else {
+
+            throw 'restaurant not found';
+
+        }
+
+*/
+    }
 

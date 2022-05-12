@@ -2,6 +2,7 @@ import {UserDocument, UserModel, UserProps} from "../model/user.model";
 import {SessionDocument, SessionModel} from "../model/session.model";
 import {isValidEmail, isValidName, isValidPassword, isValidRole} from "../lib/regex";
 import {SecurityUtils} from "../lib/security";
+import {RestaurantDocument, RestaurantModel, RestaurantProps} from "../model";
 
 export class UserService {
     private static instance?: UserService;
@@ -46,10 +47,13 @@ export class UserService {
     }
 
     async getById(userId: string): Promise<UserDocument | null> {
+
         return UserModel.findById(userId).exec();
+
     }
 
     public async logIn(info: {mail: string, password: string}): Promise<SessionDocument> {
+
         const user = await UserModel.findOne({...info});
 
         if(!user) {
@@ -67,18 +71,43 @@ export class UserService {
         return await session.save();
     }
 
+    public async logInTerminal(info: {mail: string, password: string}): Promise<SessionDocument> {
+
+        const user = await UserModel.findOne({...info});
+
+        if(!user) {
+            throw "Incorrect email or password";
+        }
+        if(user.role === "admin" || user.superUser) {
+
+            const date = new Date();
+
+            const session = new SessionModel({
+                user: user._id,
+                platform: 'terminal',
+                expiration: date.setDate(date.getDate() + 1)
+            });
+
+            return await session.save();
+
+        } else {
+
+            throw "Incorrect not allowed";
+        }
+    }
+
     public async delete(userId: string,userDeleteId: string): Promise<UserDocument|string|null|undefined> {
 
         const user = await this.getById(userId);
 
         if (user === null) {
-            return 'User not found';
+            throw 'User not found';
         }
 
         const userDelete = await this.getById(userDeleteId);
 
         if (userDelete === null) {
-            return 'User to delete not found';
+            throw 'User to delete not found';
         }
 
         if (user.role === "admin" ||

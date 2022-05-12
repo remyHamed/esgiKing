@@ -1,5 +1,4 @@
 import mongoose, {Schema, Document, Model} from "mongoose";
-import {productDocument} from "./product.model";
 
 const menuSchema = new Schema({
 
@@ -14,6 +13,10 @@ const menuSchema = new Schema({
     productList: {
         type: Schema.Types.String,
         required: true
+    },
+    ready: {
+        type: Schema.Types.Boolean,
+        required: true
     }
 }, {
     collection: "menus",
@@ -24,8 +27,9 @@ const menuSchema = new Schema({
 export interface MenuProps {
     name: string,
     price: number,
-    productList: string | Array<productDocument>
+    productList: string,
+    ready: boolean
 }
 
 export type MenuDocument = MenuProps & Document;
-export const MenuModel: Model<MenuDocument> = mongoose.model<MenuDocument>("Restaurant", menuSchema);
+export const MenuModel: Model<MenuDocument> = mongoose.model<MenuDocument>("Menu", menuSchema);

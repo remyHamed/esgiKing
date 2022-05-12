@@ -21,10 +21,10 @@ const sessionSchema = new Schema({
 });
 
 export interface SessionProps {
-    _id: string;
-    user: string | UserProps;
-    platform: string;
-    expiration?: Date;
+    _id: string,
+    user: string | UserProps,
+    platform: string,
+    expiration?: Date,
 }
 
 export type SessionDocument = SessionProps & Document;

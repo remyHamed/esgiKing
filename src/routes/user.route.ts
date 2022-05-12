@@ -46,8 +46,7 @@ userRoute.route('/')
 
 userRoute.route('/:u_id')
     .get( async (req,res) => {
-
-
+        try{
             const u = await UserService.getInstance().getById(req.params.u_id);
 
             if (u != null) {
@@ -55,7 +54,9 @@ userRoute.route('/:u_id')
             }else {
                 return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: "not found"}).end();
             }
-
+        } catch(err) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: err}).end();
+        }
 
     });
 
@@ -97,5 +98,34 @@ userRoute.route('/auth')
 
         }
     });
+
+userRoute.route('/logInTerminal')
+    .post( express.json(),async (req,res) => {
+
+        const userBody = req.body;
+
+        console.log(userBody);
+       // return res.send('welcome, ' + req.body)
+        if(!userBody.mail || !userBody.password) {
+            return res.status(StatusCodes.BAD_REQUEST).send(ReasonPhrases.BAD_REQUEST).end();
+        }
+
+        try {
+
+            const mail = req.body.mail;
+
+            const pwd =  req.body.password;
+
+            const result = await UserService.getInstance().logInTerminal({mail: mail, password: pwd})
+
+            return res.status(StatusCodes.OK).json(result);
+
+        } catch(err) {
+
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: err}).end();
+
+        }
+    });
+
 
 export default userRoute;

@@ -3,11 +3,11 @@ import mongoose, {Schema, Document, Model} from "mongoose";
 
 const commandsSchema = new Schema({
     productList: {
-        type: Schema.Types.String,
+        type: [String],
         required: true
     },
     menuList: {
-    type: Schema.Types.String,
+    type: [String],
         required: true
     },
     total: {
@@ -18,22 +18,28 @@ const commandsSchema = new Schema({
         type: Schema.Types.String,
         required: true
     },
-    restaurant: {
+    restaurantId: {
+        type: Schema.Types.String,
+        required: true
+    },
+    author: {
         type: Schema.Types.String,
         required: true
     }
 }, {
     collection: "commands",
     timestamps: true,
-    versionKey: false
+    versionKey: false,
 });
 
 export interface CommandProps {
-    productList: string,
-    menuList: string,
+    productList:  [string],
+    menuList:  [string],
     total: number,
-    payed: boolean
+    payed: boolean,
+    author: string,
+    restaurantId: string
 }
 
 export type CommandDocument = CommandProps & Document;
-export const CommandModel: Model<CommandDocument> = mongoose.model<CommandDocument>("Restaurant", commandsSchema);
+export const CommandModel: Model<CommandDocument> = mongoose.model<CommandDocument>("Command", commandsSchema);
