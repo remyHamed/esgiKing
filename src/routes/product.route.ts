@@ -4,19 +4,19 @@ import {
     ReasonPhrases,
     StatusCodes
 } from 'http-status-codes';
-import {RestaurantService} from "../services"
+import {RestaurantService, UserService} from "../services"
 import {ProductService} from "../services/product.service";
 
-const restaurantRoute = Router();
+const productRoute = Router();
 
-restaurantRoute.route('/')
+productRoute.route('/')
 
     // get all restaurant
     .get(async (req,res) => {
 
         try {
 
-            return res.status(StatusCodes.OK).json(await ProductService.getInstance().getPorduccts();
+            return res.status(StatusCodes.OK).json(await ProductService.getInstance().getPorduccts());
 
         } catch(err) {
 
@@ -25,10 +25,18 @@ restaurantRoute.route('/')
         }
     })
 
-    //creat at restaurant
+    //creat at product
     .post(express.json(),async (req,res) => {
 
-        const productBody = req.body;
+        const productBody = req.body.product;
+
+        const userBody = req.body.user;
+
+        const u = await UserService.getInstance().getById(userBody.u_id);
+
+        if (u != null) {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: "not found"}).end();
+        }
 
         if(
             !productBody.name ||
@@ -47,11 +55,8 @@ restaurantRoute.route('/')
         } catch(err) {
 
             if(
-                err === "Incorrect longitude" ||
-                err === "Incorrect latitude" ||
-                err === "Incorrect address too long" ||
-                err === "Incorrect name too long" ||
-                err === "Incorrect name too long"
+                err === "Incorrect name" ||
+                err === "Incorrect price"
             ) {
 
                 return res.status(StatusCodes.BAD_REQUEST).send({error: err}).end();
@@ -87,32 +92,38 @@ restaurantRoute.route('/')
     });
 
 
-restaurantRoute.route('/:u_id')
+productRoute.route('/:p_id')
 
-    // get one restaurant
+    // get one product
     .get( async (req,res) => {
         try {
-            const r = await RestaurantService.getInstance().getById(req.params.u_id);
+            const p = await ProductService.getInstance().getById(req.params.p_id);
 
-            if (r != null) {
-                return res.status(StatusCodes.OK).json(r);
+            if (p != null) {
+
+                return res.status(StatusCodes.OK).json(p);
+
             }else {
+
                 return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: "not found"}).end();
+
             }
         } catch(err) {
+
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: err}).end();
+
         }
 
     });
 
-restaurantRoute.route('/:user_id/:restaurant_id_delete')
+productRoute.route('/:user_id/:product_id_delete')
 
     //delete one restaurant
     .delete( async (req,res) => {
 
         try {
 
-            const result = await RestaurantService.getInstance().delete(req.params.user_id, req.params.restaurant_id_delete);
+            const result = await ProductService.getInstance().delete(req.params.user_id, req.params.product_id_delete);
 
             return res.status(StatusCodes.OK).json(result);
 
@@ -145,4 +156,4 @@ restaurantRoute.route('/:user_id/:restaurant_id_delete')
 
 
 
-export default restaurantRoute;
+export default productRoute;

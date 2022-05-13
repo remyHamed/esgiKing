@@ -11,13 +11,18 @@ userRoute.route('/')
 
     .get(async (req,res) => {
         try {
+
             return res.status(StatusCodes.OK).json(await UserService.getInstance().getUsers());
+
         } catch(err) {
+
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: err}).end();
+
         }
     })
 
     .post(express.json(),async (req,res) => {
+
         const userBody = req.body;
 
         if(!userBody.firstName || !userBody.lastName || !userBody.mail || !userBody.password) {

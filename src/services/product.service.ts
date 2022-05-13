@@ -42,7 +42,7 @@ export class ProductService {
 
         console.log("step udate filder ", filter,"restaurant" , product);
 
-        return RestaurantModel.findOneAndUpdate(filter,product/*, {rawResult: true}*/);
+        return ProductModel.findOneAndUpdate(filter,product/*, {rawResult: true}*/);
     }
 
 

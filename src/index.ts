@@ -4,6 +4,7 @@ import {config} from "dotenv";
 import userRoute from "./routes/user.route";
 import {UserModel} from "./model/user.model";
 import RestaurantRoute from "./routes/restaurant.route";
+import ProductRoute from "./routes/product.route";
 config();
 
 async function bootstrap(): Promise<void> {
@@ -23,6 +24,7 @@ async function bootstrap(): Promise<void> {
     // Routes additions
     app.use('/user', userRoute);
     app.use('/restaurant', RestaurantRoute);
+    app.use('/product', ProductRoute);
 
     const listEndpoints = require("express-list-endpoints"); // npm i express-list-endpoints
 console.log(listEndpoints(app));
