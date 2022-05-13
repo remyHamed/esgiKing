@@ -5,6 +5,7 @@ import {
     StatusCodes
 } from 'http-status-codes';
 import {RestaurantService} from "../services"
+import {ProductService} from "../services/product.service";
 
 const restaurantRoute = Router();
 
@@ -12,27 +13,26 @@ restaurantRoute.route('/')
 
     // get all restaurant
     .get(async (req,res) => {
+
         try {
-            return res.status(StatusCodes.OK).json(await RestaurantService.getInstance().getRestaurants());
+
+            return res.status(StatusCodes.OK).json(await ProductService.getInstance().getPorduccts();
+
         } catch(err) {
+
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: err}).end();
+
         }
     })
 
     //creat at restaurant
     .post(express.json(),async (req,res) => {
 
-        const restaurantBody = req.body;
+        const productBody = req.body;
 
         if(
-            !restaurantBody.zipCode ||
-            !restaurantBody.num ||
-            !restaurantBody.address ||
-            !restaurantBody.longitude ||
-            !restaurantBody.latitude ||
-            !restaurantBody.name ||
-            !restaurantBody.commandList ||
-            !restaurantBody.menuList
+            !productBody.name ||
+            !productBody.price
         ) {
 
             return res.status(StatusCodes.BAD_REQUEST).send(ReasonPhrases.BAD_REQUEST).end();
@@ -40,11 +40,12 @@ restaurantRoute.route('/')
 
         try {
 
-            const restaurant = await RestaurantService.getInstance().createRestaurant({...restaurantBody});
+            const product = await ProductService.getInstance().createProduct({...productBody});
 
-            return res.status(StatusCodes.CREATED).json(restaurant);
+            return res.status(StatusCodes.CREATED).json(product);
 
         } catch(err) {
+
             if(
                 err === "Incorrect longitude" ||
                 err === "Incorrect latitude" ||
@@ -63,9 +64,9 @@ restaurantRoute.route('/')
 
     .put(express.json(), async (req, res) => {
 
-        const restaurantBody = req.body;
+        const productBody = req.body;
 
-        if(!restaurantBody._id) {
+        if(!productBody._id) {
 
             return res.status(StatusCodes.BAD_REQUEST).send(ReasonPhrases.BAD_REQUEST).end();
 
@@ -73,7 +74,7 @@ restaurantRoute.route('/')
 
         try {
 
-            const result = await RestaurantService.getInstance().update({...restaurantBody});
+            const result = await ProductService.getInstance().update({...productBody});
 
             return res.status(StatusCodes.OK).json(result);
 

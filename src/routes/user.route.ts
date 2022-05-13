@@ -105,7 +105,7 @@ userRoute.route('/logInTerminal')
         const userBody = req.body;
 
         console.log(userBody);
-       // return res.send('welcome, ' + req.body)
+
         if(!userBody.mail || !userBody.password) {
             return res.status(StatusCodes.BAD_REQUEST).send(ReasonPhrases.BAD_REQUEST).end();
         }

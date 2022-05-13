@@ -1,4 +1,4 @@
-import {UserDocument, UserModel, UserProps} from "../model/user.model";
+import {UserDocument, UserModel, UserProps} from "../model";
 import {SessionDocument, SessionModel} from "../model/session.model";
 import {isValidEmail, isValidName, isValidPassword, isValidRole} from "../lib/regex";
 import {SecurityUtils} from "../lib/security";
@@ -15,6 +15,7 @@ export class UserService {
     }
 
     public async createUser(user: UserProps): Promise<UserDocument> { //TODO bloquer la creation de super User en aurisant la création que d'un seul
+
         const model = new UserModel(user);
 
         if (!isValidRole(user.role)) {

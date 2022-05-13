@@ -62,7 +62,7 @@ export class RestaurantService {
 
         console.log("step udate filder ", filter,"restaurant" , restaurant);
 
-        return RestaurantModel.findOneAndUpdate(filter,restaurant);
+        return RestaurantModel.findOneAndUpdate(filter,restaurant/*, {rawResult: true}*/);
     }
 
     public async delete(userId: string,restaurantId: string): Promise<RestaurantDocument|string|null|undefined> {
@@ -92,7 +92,7 @@ export class RestaurantService {
         }
     }
 
-    /*public async terminalAddCommand( command: CommandProps, restaurantId: string): Promise<RestaurantDocument |null|string> {
+  /*  public async terminalAddCommand( command: CommandProps, restaurantId: string): Promise<RestaurantDocument |null|string> {
 
         const restaurant = await RestaurantModel.findById(restaurantId).exec();
 
@@ -114,7 +114,7 @@ export class RestaurantService {
             throw 'restaurant not found';
 
         }
-
 */
+
     }
 
