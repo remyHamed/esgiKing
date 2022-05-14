@@ -1,7 +1,6 @@
 import mongoose, {Schema, Document, Model} from "mongoose";
 
 const productSchema = new Schema({
-
     name: {
         type: Schema.Types.String,
         required: true

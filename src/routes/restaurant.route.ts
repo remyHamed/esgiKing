@@ -4,7 +4,7 @@ import {
     ReasonPhrases,
     StatusCodes
 } from 'http-status-codes';
-import {RestaurantService} from "../services"
+import {RestaurantController} from "../controller"
 
 const restaurantRoute = Router();
 
@@ -13,7 +13,7 @@ restaurantRoute.route('/')
     // get all restaurant
     .get(async (req,res) => {
         try {
-            return res.status(StatusCodes.OK).json(await RestaurantService.getInstance().getRestaurants());
+            return res.status(StatusCodes.OK).json(await RestaurantController.getInstance().getRestaurants());
         } catch(err) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: err}).end();
         }
@@ -40,7 +40,7 @@ restaurantRoute.route('/')
 
         try {
 
-            const restaurant = await RestaurantService.getInstance().createRestaurant({...restaurantBody});
+            const restaurant = await RestaurantController.getInstance().createRestaurant({...restaurantBody});
 
             return res.status(StatusCodes.CREATED).json(restaurant);
 
@@ -73,7 +73,7 @@ restaurantRoute.route('/')
 
         try {
 
-            const result = await RestaurantService.getInstance().update({...restaurantBody});
+            const result = await RestaurantController.getInstance().update({...restaurantBody});
 
             return res.status(StatusCodes.OK).json(result);
 
@@ -91,7 +91,7 @@ restaurantRoute.route('/:u_id')
     // get one restaurant
     .get( async (req,res) => {
         try {
-            const r = await RestaurantService.getInstance().getById(req.params.u_id);
+            const r = await RestaurantController.getInstance().getById(req.params.u_id);
 
             if (r != null) {
                 return res.status(StatusCodes.OK).json(r);
@@ -111,7 +111,7 @@ restaurantRoute.route('/:user_id/:restaurant_id_delete')
 
         try {
 
-            const result = await RestaurantService.getInstance().delete(req.params.user_id, req.params.restaurant_id_delete);
+            const result = await RestaurantController.getInstance().delete(req.params.user_id, req.params.restaurant_id_delete);
 
             return res.status(StatusCodes.OK).json(result);
 
@@ -131,7 +131,7 @@ restaurantRoute.route('/:user_id/:restaurant_id_delete')
 
         try {
 
-            const result = await RestaurantService.getInstance().delete(req.params.user_id, req.params.restaurant_id_delete);
+            const result = await RestaurantController.getInstance().delete(req.params.user_id, req.params.restaurant_id_delete);
 
             return res.status(StatusCodes.OK).json(result);
 

@@ -1,31 +1,31 @@
 import {CommandModel, RestaurantDocument, RestaurantModel, RestaurantProps} from "../model";
 import {SessionDocument, SessionModel} from "../model/session.model";
-import {isValidGPSFomrat} from "../lib";
+import {isValidGPSFormat} from "../lib";
 import {sizeCheck} from "../lib"
-import {UserService} from "./user.service";
+import {UserController} from "./user.controller";
 import {CommandProps} from "../model/command.model";
-import {CommandeService} from "./command.service";
+import {CommandeService} from "./command.controller";
 
 
-export class RestaurantService {
-    private static instance?: RestaurantService;
+export class RestaurantController {
+    private static instance?: RestaurantController;
 
-    public static getInstance(): RestaurantService {
-        if(RestaurantService.instance === undefined) {
-            RestaurantService.instance = new RestaurantService();
+    public static getInstance(): RestaurantController {
+        if(RestaurantController.instance === undefined) {
+            RestaurantController.instance = new RestaurantController();
         }
-        return RestaurantService.instance;
+        return RestaurantController.instance;
     }
 
     public async createRestaurant(restaurant: RestaurantProps): Promise<RestaurantDocument|string> {
 
         const model = new RestaurantModel(restaurant);
 
-        if (!isValidGPSFomrat(restaurant.longitude)) {
+        if (!isValidGPSFormat(restaurant.longitude)) {
             throw "Incorrect longitude";
         }
 
-        if (!isValidGPSFomrat(restaurant.latitude)) {
+        if (!isValidGPSFormat(restaurant.latitude)) {
             throw "Incorrect latitude";
         }
         else if (!sizeCheck(restaurant.address)) {
@@ -67,7 +67,7 @@ export class RestaurantService {
 
     public async delete(userId: string,restaurantId: string): Promise<RestaurantDocument|string|null|undefined> {
 
-        const user = await UserService.getInstance().getById(userId);
+        const user = await UserController.getInstance().getById(userId);
 
         if(user === null) {
             throw 'User not found';

@@ -4,8 +4,8 @@ import {
     ReasonPhrases,
     StatusCodes
 } from 'http-status-codes';
-import {RestaurantService, UserService} from "../services"
-import {ProductService} from "../services/product.service";
+import {RestaurantController, UserController} from "../controller"
+import {ProductController} from "../controller/product.controller";
 
 const productRoute = Router();
 
@@ -16,7 +16,7 @@ productRoute.route('/')
 
         try {
 
-            return res.status(StatusCodes.OK).json(await ProductService.getInstance().getPorduccts());
+            return res.status(StatusCodes.OK).json(await ProductController.getInstance().getProducts());
 
         } catch(err) {
 
@@ -32,7 +32,7 @@ productRoute.route('/')
 
         const userBody = req.body.user;
 
-        const u = await UserService.getInstance().getById(userBody.u_id);
+        const u = await UserController.getInstance().getById(userBody.u_id);
 
         if (u != null) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: "not found"}).end();
@@ -48,7 +48,7 @@ productRoute.route('/')
 
         try {
 
-            const product = await ProductService.getInstance().createProduct({...productBody});
+            const product = await ProductController.getInstance().createProduct({...productBody});
 
             return res.status(StatusCodes.CREATED).json(product);
 
@@ -79,7 +79,7 @@ productRoute.route('/')
 
         try {
 
-            const result = await ProductService.getInstance().update({...productBody});
+            const result = await ProductController.getInstance().update({...productBody});
 
             return res.status(StatusCodes.OK).json(result);
 
@@ -97,7 +97,7 @@ productRoute.route('/:p_id')
     // get one product
     .get( async (req,res) => {
         try {
-            const p = await ProductService.getInstance().getById(req.params.p_id);
+            const p = await ProductController.getInstance().getById(req.params.p_id);
 
             if (p != null) {
 
@@ -123,7 +123,7 @@ productRoute.route('/:user_id/:product_id_delete')
 
         try {
 
-            const result = await ProductService.getInstance().delete(req.params.user_id, req.params.product_id_delete);
+            const result = await ProductController.getInstance().delete(req.params.user_id, req.params.product_id_delete);
 
             return res.status(StatusCodes.OK).json(result);
 
@@ -143,7 +143,7 @@ productRoute.route('/:user_id/:product_id_delete')
 
         try {
 
-            const result = await RestaurantService.getInstance().delete(req.params.user_id, req.params.restaurant_id_delete);
+            const result = await RestaurantController.getInstance().delete(req.params.user_id, req.params.restaurant_id_delete);
 
             return res.status(StatusCodes.OK).json(result);
 

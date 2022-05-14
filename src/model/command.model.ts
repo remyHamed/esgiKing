@@ -6,23 +6,15 @@ const commandsSchema = new Schema({
         type: [String],
         required: true
     },
-    menuList: {
-    type: [String],
-        required: true
-    },
-    total: {
-        type: Schema.Types.Number,
-        required: true
-    },
-    payed: {
+    settled: {
         type: Schema.Types.String,
         required: true
     },
-    restaurantId: {
+    restaurant: {
         type: Schema.Types.String,
         required: true
     },
-    author: {
+    client: {
         type: Schema.Types.String,
         required: true
     }
@@ -34,11 +26,9 @@ const commandsSchema = new Schema({
 
 export interface CommandProps {
     productList:  [string],
-    menuList:  [string],
-    total: number,
-    payed: boolean,
-    author: string,
-    restaurantId: string
+    settled: boolean,
+    client: string,
+    restaurant: string
 }
 
 export type CommandDocument = CommandProps & Document;

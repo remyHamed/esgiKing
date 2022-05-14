@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import {UserService} from "../services";
+import {UserController} from "../controller";
 import {
     ReasonPhrases,
     StatusCodes
@@ -12,7 +12,7 @@ userRoute.route('/')
     .get(async (req,res) => {
         try {
 
-            return res.status(StatusCodes.OK).json(await UserService.getInstance().getUsers());
+            return res.status(StatusCodes.OK).json(await UserController.getInstance().getUsers());
 
         } catch(err) {
 
@@ -32,7 +32,7 @@ userRoute.route('/')
 
         try {
 
-            const user = await UserService.getInstance().createUser({...userBody});
+            const user = await UserController.getInstance().createUser({...userBody});
 
             return res.status(StatusCodes.CREATED).json(user);
 
@@ -52,7 +52,7 @@ userRoute.route('/')
 userRoute.route('/:u_id')
     .get( async (req,res) => {
         try{
-            const u = await UserService.getInstance().getById(req.params.u_id);
+            const u = await UserController.getInstance().getById(req.params.u_id);
 
             if (u != null) {
                 return res.status(StatusCodes.OK).json(u);
@@ -68,8 +68,8 @@ userRoute.route('/:u_id')
 userRoute.route('/:user_id/:user_id_delete')
     .delete( async (req,res) => {
     try {
-        //   return res.status(StatusCodes.OK).json(await UserService.getInstance().getUsers());
-        const result = await UserService.getInstance().delete(req.params.user_id, req.params.user_id_delete);
+        //   return res.status(StatusCodes.OK).json(await UserController.getInstance().getUsers());
+        const result = await UserController.getInstance().delete(req.params.user_id, req.params.user_id_delete);
 
         return res.status(StatusCodes.OK).json(result);
 
@@ -87,7 +87,7 @@ userRoute.route('/auth')
 
         try {
 
-            const user = await UserService.getInstance().logIn({...userBody});
+            const user = await UserController.getInstance().logIn({...userBody});
 
             return res.json(user);
 
@@ -121,7 +121,7 @@ userRoute.route('/logInTerminal')
 
             const pwd =  req.body.password;
 
-            const result = await UserService.getInstance().logInTerminal({mail: mail, password: pwd})
+            const result = await UserController.getInstance().logInTerminal({mail: mail, password: pwd})
 
             return res.status(StatusCodes.OK).json(result);
 
