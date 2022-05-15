@@ -2,36 +2,12 @@ import mongoose, {Schema, Document, Model} from "mongoose";
 
 
 const restaurantSchema = new Schema({
-    zipCode: {
-        type: Schema.Types.String,
-        required: true
-    },
-    num: {
-        type: Schema.Types.String,
-        required: true
-    },
     address: {
-        type: Schema.Types.String,
-        required: true
-    },
-    longitude: {
-        type: Schema.Types.String,
-        required: true
-    },
-    latitude: {
         type: Schema.Types.String,
         required: true
     },
     name: {
         type: Schema.Types.String,
-        required: true
-    },
-    menuList: {
-        type: [String],
-        required: true
-    },
-    commandList: {
-        type: [String],
         required: true
     }
 }, {
@@ -41,14 +17,8 @@ const restaurantSchema = new Schema({
 });
 
 export interface RestaurantProps {
-    zipCode:string,
-    num:string,
     address: string,
-    longitude: string,
-    latitude: string,
-    name: string,
-    menuList: [String],
-    commandList: [String]
+    name: string
 }
 
 export type RestaurantDocument = RestaurantProps & Document;

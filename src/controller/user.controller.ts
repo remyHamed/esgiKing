@@ -36,8 +36,12 @@ export class UserController {
         return UserModel.find();
     }
 
-    async getById(userId: string): Promise<UserDocument | null> {
-        return UserModel.findById(userId).exec();
+    async getById(userId: string): Promise<UserDocument> {
+        const document = await UserModel.findById(userId).exec();
+        if (!document) {
+            throw "User not found";
+        }
+        return document;
     }
 
     public async logIn(info: {mail: string, password: string}): Promise<SessionDocument> {
@@ -56,13 +60,12 @@ export class UserController {
         return await session.save();
     }
 
-    public async delete(userId: string): Promise<UserDocument|null> {
-        const user = await this.getById(userId);
-        if (!user) {
-            throw 'User not found';
+    public async delete(userId: string): Promise<UserDocument> {
+        const document = await UserModel.findOneAndRemove({_id: userId});
+        if (!document) {
+            throw "User not found";
         }
-
-        return UserModel.findOneAndRemove({_id: userId});
+        return document;
     }
 }
 

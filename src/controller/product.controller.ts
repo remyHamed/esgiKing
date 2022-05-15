@@ -1,6 +1,4 @@
-import {productDocument, ProductModel, productProps, RestaurantDocument, RestaurantModel} from "../model";
-import {UserDocument, UserModel, UserProps} from "../model";
-import {UserController} from "./"
+import {productDocument, ProductModel, productProps} from "../model";
 
 
 export class ProductController {
@@ -18,19 +16,22 @@ export class ProductController {
     }
 
     public async getProducts(): Promise<productDocument[]> {
-        return ProductModel.find({});
+        return ProductModel.find();
     }
 
-    async getById(productId: string): Promise<productDocument|null> {
-        return ProductModel.findById(productId);
-    }
-
-    public async delete(productDeleteId: string): Promise<productDocument|null> {
-        const productDelete = await this.getById(productDeleteId);
-        if (productDelete === null) {
-            throw 'Product to delete not found';
+    async getById(productId: string): Promise<productDocument> {
+        const document = await ProductModel.findById(productId);
+        if (!document) {
+            throw "Product not found";
         }
-        return ProductModel.findOneAndRemove({_id: productDelete._id});
+        return document;
+    }
+
+    public async delete(productDeleteId: string): Promise<productDocument> {
+        const document = await ProductModel.findOneAndRemove({_id: productDeleteId});
+        if (!document) {
+            throw "Product not found";
+        }
+        return document;
     }
 }
-

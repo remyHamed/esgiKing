@@ -11,7 +11,7 @@ export class CommandController {
         return CommandController.instance;
     }
 
-    public async createCommand(command: CommandProps): Promise<CommandDocument|null> {
+    public async createCommand(command: CommandProps): Promise<CommandDocument> {
         command.settled = false;
         if(!command.productList.length) {
             throw "Incorrect number of items";
