@@ -1,25 +1,20 @@
 import mongoose, {Schema, Document, Model} from "mongoose";
 
 const productSchema = new Schema({
-
     name: {
         type: Schema.Types.String,
         required: true
     },
-    price: {
-        type: Schema.Types.Number,
+    ingredients: {
+        type: [Schema.Types.String],
         required: true
     }
-}, {
-    collection: " products",
-    timestamps: true,
-    versionKey: false
-});
+})
 
-export interface  productProps {
+export interface ProductProps {
     name: string,
-    price: number
+    ingredients: string[]
 }
 
-export type productDocument = productProps & Document;
-export const ProductModel: Model<productDocument> = mongoose.model<productDocument>("Product", productSchema);
+export type ProductDocument = ProductProps & Document;
+export const ProductModel: Model<ProductDocument> = mongoose.model<ProductDocument>("Product", productSchema);
