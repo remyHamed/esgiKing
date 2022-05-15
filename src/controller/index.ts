@@ -1,3 +1,3 @@
-export * from './user.controller'
-export * from './restaurant.controller'
-export * from './command.controller'
+export * from './user'
+export * from './restaurant'
+export * from './command'

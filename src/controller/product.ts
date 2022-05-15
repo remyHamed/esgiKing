@@ -1,13 +1,14 @@
 import {productDocument, ProductModel, productProps} from "../model";
 
 
-export class ProductController {
-    private static instance?: ProductController;
-    public static getInstance(): ProductController {
-        if(ProductController.instance === undefined) {
-            ProductController.instance = new ProductController();
+export class Product {
+    private static instance?: Product;
+
+    public static getInstance(): Product {
+        if (Product.instance === undefined) {
+            Product.instance = new Product();
         }
-        return ProductController.instance;
+        return Product.instance;
     }
 
     public async createProduct(product: productProps): Promise<productDocument> {

@@ -15,7 +15,7 @@ const productSchema = new Schema({
     versionKey: false
 });
 
-export interface  productProps {
+export interface productProps {
     name: string,
     price: number
 }

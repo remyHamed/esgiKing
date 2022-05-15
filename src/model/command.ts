@@ -25,7 +25,7 @@ const commandsSchema = new Schema({
 });
 
 export interface CommandProps {
-    productList:  [string],
+    productList: [string],
     settled: boolean,
     client: string,
     restaurant: string

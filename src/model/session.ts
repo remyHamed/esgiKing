@@ -1,15 +1,11 @@
 import mongoose, {Model, Schema} from "mongoose";
-import {UserProps} from "./user.model";
+import {UserProps} from "./user";
 
 const sessionSchema = new Schema({
     user: {
         type: Schema.Types.String,
         required: true,
         ref: "User"
-    },
-    platform: {
-        type: Schema.Types.String,
-        required: true
     },
     expiration: {
         type: Schema.Types.Date
@@ -23,7 +19,6 @@ const sessionSchema = new Schema({
 export interface SessionProps {
     _id: string,
     user: string | UserProps,
-    platform: string,
     expiration?: Date,
 }
 

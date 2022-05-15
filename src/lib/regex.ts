@@ -11,19 +11,13 @@ export function isValidEmail(email: string): boolean {
 export function isValidPassword(password: string): boolean {
     if(password.length < 8)
         return false;
-
-    else if(!/[A-Z]/.test(password))
+    else if(
+        !/[A-Z]/.test(password) ||
+        !/[a-z]/.test(password) ||
+        !/[0-9]/.test(password) ||
+        !/[%@*!?&]/.test(password)
+    )
         return false;
-
-    else if(!/[a-z]/.test(password))
-        return false;
-
-    else if(!/[0-9]/.test(password))
-        return false;
-
-    else if(!/[%@*!?&]/.test(password))
-        return false;
-
     return true;
 }
 
@@ -34,10 +28,5 @@ export function isValidRole(role: string): boolean {
 export function isValidName(name: string) {
     if(name.length < 1)
         return false
-
     return nameRegex.test(name);
-}
-
-export function isValidGPSFormat(coordinates: string): boolean {
-    return gpsRegex.test(coordinates);
 }

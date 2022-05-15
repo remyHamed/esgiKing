@@ -2,19 +2,20 @@ import {RestaurantDocument, RestaurantModel, RestaurantProps} from "../model";
 
 export class RestaurantController {
     private static instance?: RestaurantController;
+
     public static getInstance(): RestaurantController {
-        if(RestaurantController.instance === undefined) {
+        if (RestaurantController.instance === undefined) {
             RestaurantController.instance = new RestaurantController();
         }
         return RestaurantController.instance;
     }
 
-    public async createRestaurant(restaurant: RestaurantProps): Promise<RestaurantDocument|string> {
+    public async createRestaurant(restaurant: RestaurantProps): Promise<RestaurantDocument | string> {
         if (!restaurant.address) {
             throw "Missing restaurant address";
         } else if (!restaurant.name) {
             throw "Missing restaurant name";
-        } else if(await RestaurantModel.find({address:restaurant.address}))
+        } else if (await RestaurantModel.find({address: restaurant.address}))
             throw "A restaurant with this address already exist";
         return await new RestaurantModel(restaurant).save();
     }
@@ -25,7 +26,7 @@ export class RestaurantController {
 
     async getById(restaurantId: string): Promise<RestaurantDocument> {
         const document = await RestaurantModel.findById(restaurantId).exec();
-        if(!document) {
+        if (!document) {
             throw "Restaurant not found";
         }
         return document;
@@ -33,7 +34,7 @@ export class RestaurantController {
 
     public async delete(restaurantId: string): Promise<RestaurantDocument> {
         const document = await RestaurantModel.findOneAndRemove({_id: restaurantId});
-        if(!document) {
+        if (!document) {
             throw "Restaurant not found";
         }
         return document;
