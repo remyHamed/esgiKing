@@ -32,7 +32,6 @@ export class UserController {
 
         return await new UserModel({
             ...user,
-            superUser:false,
             mail:user.mail.toLowerCase(),
             password:SecurityUtils.sha512(user.password)
         }).save();

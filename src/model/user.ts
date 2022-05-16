@@ -1,10 +1,6 @@
 import mongoose, {Schema, Document, Model} from "mongoose";
 
 const userSchema = new Schema({
-    superUser: {
-        type: Schema.Types.Boolean,
-        required: true
-    },
     role: {
         type: Schema.Types.String,
         required: true
@@ -36,8 +32,7 @@ export interface UserProps {
     firstName: string,
     lastName: string,
     mail: string,
-    password: string,
-    superUser: boolean
+    password: string
 }
 
 export type UserDocument = UserProps & Document;

@@ -22,12 +22,11 @@ async function bootstrap(): Promise<void> {
     // Superuser creation
     const passwordSuperuser = process.env.SUPERUSER_PASSWORD ? process.env.SUPERUSER_PASSWORD : "AdminP@ssw0rd";
     const adminProps = {
-        role: "admin",
+        role: "bigBoss",
         firstName: "Enzo",
         lastName: "Soares",
-        mail: "superadmin@esgiking.fr",
-        password: SecurityUtils.sha512(passwordSuperuser),
-        superUser: true
+        mail: "enzo.soares@esgiking.fr",
+        password: SecurityUtils.sha512(passwordSuperuser)
     }
 
     const superUser = await UserModel.find(adminProps);
