@@ -1,5 +1,4 @@
 import {UserDocument, UserModel, UserProps} from "../model";
-import {AuthDocument, AuthModel} from "../model/auth";
 import {isValidEmail, isValidName, isValidPassword, isValidRole} from "../lib/regex";
 import {SecurityUtils} from "../lib/security";
 import {ConflictException, IncorrectArgumentException, NotFoundException} from "../lib";
@@ -34,6 +33,7 @@ export class UserController {
         return await new UserModel({
             ...user,
             superUser:false,
+            mail:user.mail.toLowerCase(),
             password:SecurityUtils.sha512(user.password)
         }).save();
     }

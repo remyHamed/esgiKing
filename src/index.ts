@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import {config} from "dotenv";
 import userRoute from "./services/user";
 import authRoute from "./services/auth";
+import {UserModel} from "./model";
+import {SecurityUtils} from "./lib";
 config();
 
 async function bootstrap(): Promise<void> {
@@ -17,7 +19,21 @@ async function bootstrap(): Promise<void> {
         }
     });
 
-    // TODO create admin(super user)
+    // Superuser creation
+    const passwordSuperuser = process.env.SUPERUSER_PASSWORD ? process.env.SUPERUSER_PASSWORD : "AdminP@ssw0rd";
+    const adminProps = {
+        role: "admin",
+        firstName: "Enzo",
+        lastName: "Soares",
+        mail: "superadmin@esgiking.fr",
+        password: SecurityUtils.sha512(passwordSuperuser),
+        superUser: true
+    }
+
+    const superUser = await UserModel.find(adminProps);
+    if (!superUser.length) {
+        await new UserModel(adminProps).save();
+    }
 
     // Routes additions
     app.use('/user', userRoute);
