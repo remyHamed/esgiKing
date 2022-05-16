@@ -1,5 +1,5 @@
 import {UserDocument, UserModel, UserProps} from "../model";
-import {SessionDocument, SessionModel} from "../model/session";
+import {AuthDocument, AuthModel} from "../model/auth";
 import {isValidEmail, isValidName, isValidPassword, isValidRole} from "../lib/regex";
 import {SecurityUtils} from "../lib/security";
 import {ConflictException, IncorrectArgumentException, NotFoundException} from "../lib";
@@ -34,8 +34,8 @@ export class UserController {
         return await new UserModel({
             ...user,
             superUser:false,
-            password:SecurityUtils.sha512(user.password)},
-        ).save();
+            password:SecurityUtils.sha512(user.password)
+        }).save();
     }
 
     public async getUsers(): Promise<UserDocument[]> {
@@ -48,20 +48,6 @@ export class UserController {
             throw new NotFoundException("User not found");
         }
         return document;
-    }
-
-    public async logIn(info: { mail: string, password: string }): Promise<SessionDocument> {
-        const user = await UserModel.findOne(info);
-        if (!user) {
-            throw new IncorrectArgumentException("Incorrect email or password");
-        }
-
-        const date = new Date();
-        const session = new SessionModel({
-            user: user._id,
-            expiration: date.setDate(date.getDate() + 1)
-        });
-        return await session.save();
     }
 
     public async delete(userId: string): Promise<void> {

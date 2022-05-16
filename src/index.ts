@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import {config} from "dotenv";
 import userRoute from "./services/user";
+import authRoute from "./services/auth";
 config();
 
 async function bootstrap(): Promise<void> {
@@ -20,6 +21,7 @@ async function bootstrap(): Promise<void> {
 
     // Routes additions
     app.use('/user', userRoute);
+    app.use('/auth', authRoute);
 
     // Port Listening
     app.listen(process.env.PORT, function() {

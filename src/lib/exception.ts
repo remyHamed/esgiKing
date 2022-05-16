@@ -32,6 +32,13 @@ export class ConflictException extends Exception {
     }
 }
 
+export class ExpiredException extends Exception {
+    constructor(message: string) {
+        super(message)
+        this.type = "Expired";
+    }
+}
+
 export class AuthorizationException extends Exception {
     constructor(message: string) {
         super(message)
