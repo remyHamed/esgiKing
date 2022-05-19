@@ -5,6 +5,8 @@ import userRoute from "./services/user";
 import authRoute from "./services/auth";
 import {UserModel} from "./model";
 import {SecurityUtils} from "./lib";
+import commandRoute from "./services/command";
+import productRoute from "./services/product";
 config();
 
 async function bootstrap(): Promise<void> {
@@ -37,6 +39,8 @@ async function bootstrap(): Promise<void> {
     // Routes additions
     app.use('/user', userRoute);
     app.use('/auth', authRoute);
+    app.use('/command', commandRoute);
+    app.use('/product', productRoute)
 
     // Port Listening
     app.listen(process.env.PORT, function() {

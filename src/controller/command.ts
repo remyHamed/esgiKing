@@ -12,6 +12,10 @@ export class Command {
         return Command.instance;
     }
 
+    public async getCommands(): Promise<CommandDocument[]> {
+        return CommandModel.find();
+    }
+
     public async createCommand(command: CommandProps): Promise<CommandDocument> {
         command.settled = false;
         if (!command.productList.length) {
@@ -23,6 +27,22 @@ export class Command {
         }
 
         return await new CommandModel(command).save();
+    }
+
+    public async getById(commandId: string): Promise<CommandDocument> {
+        const document = await CommandModel.findById(commandId);
+        if (!document) {
+            throw "Command not found";
+        }
+        return document;
+    }
+
+    public async delete(commandId: string): Promise<CommandDocument> {
+        const document = await CommandModel.findOneAndRemove({_id: commandId});
+        if (!document) {
+            throw "Product not found";
+        }
+        return document;
     }
 
 

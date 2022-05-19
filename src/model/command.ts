@@ -3,7 +3,7 @@ import mongoose, {Schema, Document, Model} from "mongoose";
 
 const commandsSchema = new Schema({
     productList: {
-        type: [String],
+        type: [{ type: String }],
         required: true
     },
     settled: {

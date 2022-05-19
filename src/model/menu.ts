@@ -11,7 +11,7 @@ const menuSchema = new Schema({
         required: true
     },
     productList: {
-        type: Schema.Types.String,
+        type: [{ type: String }],
         required: true
     },
     ready: {
@@ -27,7 +27,7 @@ const menuSchema = new Schema({
 export interface MenuProps {
     name: string,
     price: number,
-    productList: string,
+    productList: [string],
     ready: boolean
 }
 
