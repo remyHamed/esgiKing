@@ -32,6 +32,20 @@ commandRoute.route('/:c_id')
         } catch (err) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: err}).end();
         }
-    })
+    });
+
+commandRoute.route('/acceptDelivery/:c_id')
+    .get(async (req, res) => {
+       try{
+           const c = await Command.getInstance().acceptDelivery(req.params.c_id);
+           if (c != null) {
+               return res.status(StatusCodes.OK).json(c);
+           }
+           return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: "not found"}).end();
+       } catch (err){
+           return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: err}).end();
+
+       }
+    });
 
 export default commandRoute;

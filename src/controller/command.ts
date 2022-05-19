@@ -19,7 +19,7 @@ export class Command {
     public async createCommand(command: CommandProps): Promise<CommandDocument> {
         command.settled = false;
         if (!command.productList.length) {
-            throw new IncorrectArgumentException("Missing products in command");
+            throw new IncorrectArgumentException("Missing products in Order");
         } else if (!command.restaurant) {
             throw new IncorrectArgumentException("Missing restaurant id");
         } else if (!command.client) {
@@ -32,7 +32,7 @@ export class Command {
     public async getById(commandId: string): Promise<CommandDocument> {
         const document = await CommandModel.findById(commandId);
         if (!document) {
-            throw "Command not found";
+            throw "Order not found";
         }
         return document;
     }
@@ -40,10 +40,19 @@ export class Command {
     public async delete(commandId: string): Promise<CommandDocument> {
         const document = await CommandModel.findOneAndRemove({_id: commandId});
         if (!document) {
-            throw "Product not found";
+            throw "Order not found";
         }
         return document;
     }
 
+    async acceptDelivery(commandId: string) {
+        const delivery = await CommandModel.findById(commandId);
+        if (delivery == null){
+            throw "Order not found"
+        }
 
+        delivery.settled = true;
+
+
+    }
 }
