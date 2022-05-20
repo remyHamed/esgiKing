@@ -10,10 +10,10 @@ const commandsSchema = new Schema({
         type: Schema.Types.String,
         required: true
     },
-    restaurant: {
-        type: Schema.Types.String,
-        required: true
-    },
+    restaurant: [{
+        type: Schema.Types.ObjectId,
+        ref: 'restaurant'
+    }],
     client: {
         type: Schema.Types.String,
         required: true

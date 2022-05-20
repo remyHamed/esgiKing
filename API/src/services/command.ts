@@ -1,6 +1,7 @@
 import express, {Router} from 'express';
 import {StatusCodes} from 'http-status-codes';
 import {Command} from "../controller";
+import * as path from "path";
 
 const commandRoute = Router();
 commandRoute.route('/')
@@ -39,6 +40,7 @@ commandRoute.route('/acceptDelivery/:c_id')
        try{
            const c = await Command.getInstance().acceptDelivery(req.params.c_id);
            if (c != null) {
+               res.sendFile(path.join())
                return res.status(StatusCodes.OK).json(c);
            }
            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: "not found"}).end();

@@ -46,13 +46,15 @@ export class Command {
     }
 
     async acceptDelivery(commandId: string) {
-        const delivery = await CommandModel.findById(commandId);
+        const delivery = await this.getById(commandId);
         if (delivery == null){
             throw "Order not found"
         }
 
-        delivery.settled = true;
+        delivery.settled =  true;
 
+        const res = await delivery.save();
+        return res;
 
     }
 }

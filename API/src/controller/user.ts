@@ -55,5 +55,16 @@ export class UserController {
             throw new NotFoundException("User not found");
         }
     }
+
+    static async getLocation(): Promise<GeolocationPosition | string>{
+        navigator.geolocation.watchPosition((data) => {
+            return data
+        },
+(err)=>{
+            return err
+        });
+
+        return 'fail'
+    }
 }
 
