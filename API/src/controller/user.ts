@@ -56,15 +56,23 @@ export class UserController {
         }
     }
 
-    static async getLocation(): Promise<GeolocationPosition | string>{
-        navigator.geolocation.watchPosition((data) => {
-            return data
-        },
-(err)=>{
-            return err
-        });
+    static async getLocation(): Promise<any>{
+        const axios = require("axios");
 
-        return 'fail'
+        const options = {
+            method: 'GET',
+            url: 'https://ip-geolocation-ipwhois-io.p.rapidapi.com/json/',
+            headers: {
+                'X-RapidAPI-Host': 'ip-geolocation-ipwhois-io.p.rapidapi.com',
+                'X-RapidAPI-Key': '5d6e2ec060mshcc8fb959d7387d8p1f47dfjsnf8a8175763bd'
+            }
+        };
+
+        axios.request(options).then(function (response: any) {
+            return response
+        }).catch(function (error: any) {
+            return error
+        });
     }
 }
 

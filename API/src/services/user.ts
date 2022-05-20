@@ -28,6 +28,16 @@ userRoute.route('/')
         }
     });
 
+userRoute.route('/track')
+    .get(async (req, res)=> {
+        try {
+            const location = await UserController.getLocation();
+            return res.status(StatusCodes.OK).send(location);
+        } catch (err){
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: err});
+        }
+    })
+
 userRoute.route('/:userId')
     .get(async (req,res) => {
         try{
@@ -51,15 +61,5 @@ userRoute.route('/:userId')
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: err});
         }
     });
-
-userRoute.route('/track/')
-    .get(async (req, res)=> {
-        try {
-            const location = await UserController.getLocation();
-            return res.status(StatusCodes.OK).send(location);
-        } catch (err){
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: err});
-        }
-    })
 
 export default userRoute;
