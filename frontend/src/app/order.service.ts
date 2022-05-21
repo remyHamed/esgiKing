@@ -11,6 +11,6 @@ export class OrderService {
   ) { }
 
   startTracking() {
-    return this.webRequestService.get('user/track')
+    return this.webRequestService.get('user/track');
   }
 }

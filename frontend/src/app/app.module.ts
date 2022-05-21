@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { OrderComponent } from './pages/order/order.component';
 import {HttpClientModule} from "@angular/common/http";
+import {GoogleMapsModule} from "@angular/google-maps";
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import {HttpClientModule} from "@angular/common/http";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    GoogleMapsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

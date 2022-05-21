@@ -2,11 +2,18 @@
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-  <title>Order</title>
+ <title>Order</title>
 </head>
 <body>
 <button (click)="start()">start</button>
 <button (click)="stop()">stop</button>
+
+<google-map [center]="marker.location">
+  <map-marker
+    [position]="marker.location">
+
+  </map-marker>
+</google-map>
 
 </body>
 </html>

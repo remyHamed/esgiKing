@@ -7,16 +7,21 @@ import {OrderService} from "../../order.service";
   styleUrls: ['./order.component.scss']
 })
 export class OrderComponent implements OnInit {
+  marker: any
 
   constructor(
     private orderService: OrderService
   ) { }
 
   ngOnInit(): void {
+
   }
+
+
 
   start(){
     this.orderService.startTracking().subscribe((res:any) => {
+      this.marker = res;
       console.log(res)
     })
   }

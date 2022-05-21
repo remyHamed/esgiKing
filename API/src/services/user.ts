@@ -32,6 +32,7 @@ userRoute.route('/track')
     .get(async (req, res)=> {
         try {
             const location = await UserController.getLocation();
+            console.log(location);
             return res.status(StatusCodes.OK).send(location);
         } catch (err){
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: err});
