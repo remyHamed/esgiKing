@@ -2,7 +2,7 @@ import express, {Router} from 'express';
 import {StatusCodes} from 'http-status-codes';
 import {Command} from "../controller";
 import * as path from "path";
-import {checkSpecificAuthor, ExpiredException, UnauthorizedException} from "../lib";
+import {checkSpecificAuthor, ExpiredException, IncorrectArgumentException, UnauthorizedException} from "../lib";
 
 const commandRoute = Router();
 commandRoute.route('/')
@@ -30,6 +30,8 @@ commandRoute.route('/')
                 return res.status(498).send({error: err.toString()});
             } else if (err instanceof UnauthorizedException) {
                 return res.status(StatusCodes.UNAUTHORIZED).send({error: err.toString()});
+            } else if (err instanceof IncorrectArgumentException) {
+                return res.status(StatusCodes.BAD_REQUEST).send({error: err.toString()});
             }
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: err}).end();
         }

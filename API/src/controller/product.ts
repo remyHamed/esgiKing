@@ -1,4 +1,5 @@
 import {productDocument, ProductModel, productProps} from "../model";
+import {IncorrectArgumentException, NotFoundException} from "../lib";
 
 
 export class Product {
@@ -12,6 +13,11 @@ export class Product {
     }
 
     public async createProduct(product: productProps): Promise<productDocument> {
+        if (!product.name) {
+            throw new IncorrectArgumentException("Missing product name");
+        } else if (!product.price) {
+            throw new IncorrectArgumentException("Missing product price");
+        }
         const model = new ProductModel(product);
         return await model.save();
     }
@@ -23,7 +29,7 @@ export class Product {
     async getById(productId: string): Promise<productDocument> {
         const document = await ProductModel.findById(productId);
         if (!document) {
-            throw "Product not found";
+            throw new NotFoundException("Product not found");
         }
         return document;
     }
@@ -31,7 +37,7 @@ export class Product {
     public async delete(productDeleteId: string): Promise<productDocument> {
         const document = await ProductModel.findOneAndRemove({_id: productDeleteId});
         if (!document) {
-            throw "Product not found";
+            throw new NotFoundException("Product not found");
         }
         return document;
     }
