@@ -12,6 +12,7 @@
     "heroku": "rmdir /q /s D:\\cours\\node\\esgiKing\\heroku-app && mkdir D:\\cours\\node\\esgiKing\\heroku-app\\dist && xcopy /e /s D:\\cours\\node\\esgiKing\\API\\dist D:\\cours\\node\\esgiKing\\heroku-app\\dist && copy D:\\cours\\node\\esgiKing\\API\\package.json D:\\cours\\node\\esgiKing\\heroku-app && cd D:\\cours\\node\\esgiKing\\heroku-app && git add . && git commit -m 'publish' && git push heroku main",
     "tt": "rmdir /q /s heroku-app\\dist && del heroku-app\\API\\package.json &&"
   },
+  "heroku-run-build-script": false,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/remyHamed/esgiKing.git"
