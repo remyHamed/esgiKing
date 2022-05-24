@@ -39,11 +39,16 @@ productRoute.route('/')
 productRoute.route('/:p_id')
     .delete(async (req, res) => {
         try {
+            await checkSpecificAuthor(req.headers['authorization'], 'admin');
             await Product.getInstance().delete(req.params.p_id);
             return res.status(StatusCodes.OK).end();
         } catch (err) {
             if (err instanceof NotFoundException) {
                 return res.status(StatusCodes.NOT_FOUND).send({error: err.toString()});
+            }else if (err instanceof ExpiredException) {
+                return res.status(498).send({error: err.toString()});
+            } else if (err instanceof UnauthorizedException) {
+                return res.status(StatusCodes.UNAUTHORIZED).send({error: err.toString()});
             }
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: err});
         }
