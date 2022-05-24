@@ -1,7 +1,6 @@
 import express, {Router} from 'express';
 import {StatusCodes} from 'http-status-codes';
 import {Command} from "../controller";
-import * as path from "path";
 import {checkSpecificAuthor, ExpiredException, IncorrectArgumentException, UnauthorizedException} from "../lib";
 
 const commandRoute = Router();
@@ -51,10 +50,8 @@ commandRoute.route('/:c_id')
             }
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: err});
         }
-    });
-
-commandRoute.route('/acceptDelivery/:c_id')
-    .get(async (req, res) => {
+    })
+    .patch(async (req, res) => {
        try{
            await checkSpecificAuthor(req.headers['authorization'], 'admin');
            const command = await Command.getInstance().acceptDelivery(req.params.c_id);
