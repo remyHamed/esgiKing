@@ -13,6 +13,7 @@ export class UserController {
         return UserController.instance;
     }
 
+    //comment
     public async createUser(user: UserProps): Promise<UserDocument> {
         if (!isValidRole(user.role)) {
             throw new IncorrectArgumentException("Incorrect role");
