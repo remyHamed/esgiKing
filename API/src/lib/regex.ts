@@ -1,6 +1,6 @@
 const emailRegex = /^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-](\.?[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-])*@[a-zA-Z0-9](\.?[a-zA-Z0-9])*\.[a-zA-Z0-9][a-zA-Z0-9]+$/;
 const nameRegex = /^[a-zA-Z]+([- '][a-zA-Z]+)*$/;
-const roleRegex = /^admin|delivery|picker|client$/;
+const roleRegex = /^admin|delivery|client$/;
 
 
 export function isValidEmail(email: string): boolean {

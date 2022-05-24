@@ -23,17 +23,4 @@ authRoute.route('/')
         }
     });
 
-authRoute.route('/:token')
-    .get(async (req,res) => {
-        try {
-            const session = await AuthController.getInstance().getAuthByToken(req.params.token);
-            return res.status(StatusCodes.CREATED).send(session);
-        } catch(err) {
-            if(err instanceof NotFoundException) {
-                return res.status(StatusCodes.NOT_FOUND).send({error: err.toString()});
-            }
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: err});
-        }
-    });
-
 export default authRoute;

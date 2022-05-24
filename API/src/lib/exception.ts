@@ -39,7 +39,7 @@ export class ExpiredException extends Exception {
     }
 }
 
-export class AuthorizationException extends Exception {
+export class UnauthorizedException extends Exception {
     constructor(message: string) {
         super(message)
         this.type = "Not Authorized";

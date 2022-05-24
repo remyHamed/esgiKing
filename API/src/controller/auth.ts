@@ -1,6 +1,6 @@
 import {UserModel} from "../model";
 import {AuthDocument, AuthModel} from "../model/auth";
-import {ExpiredException, NotFoundException, SecurityUtils} from "../lib";
+import {NotFoundException, SecurityUtils} from "../lib";
 
 export class AuthController {
     private static instance?: AuthController;
@@ -27,16 +27,5 @@ export class AuthController {
             expiration: date.setDate(date.getDate() + 1)
         });
         return await session.save();
-    }
-
-    public async getAuthByToken(token: string): Promise<AuthDocument> {
-        const auth = await AuthModel.findById(token);
-        if (!auth) {
-            throw new NotFoundException("No session found with this token");
-        } else if (!auth.expiration || auth.expiration <= new Date()) {
-            await auth.remove();
-            throw new ExpiredException("The session related to this token is expired");
-        }
-        return auth;
     }
 }
