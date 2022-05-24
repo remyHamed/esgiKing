@@ -7,6 +7,7 @@ import {UserModel} from "./model";
 import {SecurityUtils} from "./lib";
 import commandRoute from "./services/command";
 import productRoute from "./services/product";
+import restaurantRoute from "./services/restaurant";
 config();
 
 async function bootstrap(): Promise<void> {
@@ -56,7 +57,8 @@ async function bootstrap(): Promise<void> {
     app.use('/user', userRoute);
     app.use('/auth', authRoute);
     app.use('/command', commandRoute);
-    app.use('/product', productRoute)
+    app.use('/product', productRoute);
+    app.use('/restaurant', restaurantRoute)
 
     // Port Listening
     app.listen(process.env.PORT, function() {

@@ -1,4 +1,5 @@
-import {RestaurantDocument, RestaurantModel, RestaurantProps} from "../model";
+import {RestaurantDocument, RestaurantModel, RestaurantProps, UserModel} from "../model";
+import {IncorrectArgumentException, ConflictException} from "../lib";
 
 export class RestaurantController {
     private static instance?: RestaurantController;
@@ -12,22 +13,27 @@ export class RestaurantController {
 
     public async createRestaurant(restaurant: RestaurantProps): Promise<RestaurantDocument | string> {
         if (!restaurant.address) {
-            throw "Missing restaurant address";
+            throw new IncorrectArgumentException("Missing restaurant address");
         } else if (!restaurant.name) {
-            throw "Missing restaurant name";
-        } else if (await RestaurantModel.find({address: restaurant.address}))
-            throw "A restaurant with this address already exist";
+            throw new IncorrectArgumentException("Missing restaurant name");
+        }
+
+        const conflictRestaurant = await RestaurantModel.find({address: restaurant.address});
+        if (conflictRestaurant.length) {
+            throw new ConflictException("A restaurant with this address already exist");
+        }
+
         return await new RestaurantModel(restaurant).save();
     }
 
     public async getRestaurants(): Promise<RestaurantDocument[]> {
-        return RestaurantModel.find({});
+        return RestaurantModel.find();
     }
 
     async getById(restaurantId: string): Promise<RestaurantDocument> {
         const document = await RestaurantModel.findById(restaurantId).exec();
         if (!document) {
-            throw "Restaurant not found";
+            throw new IncorrectArgumentException("Restaurant not found");
         }
         return document;
     }
@@ -35,7 +41,7 @@ export class RestaurantController {
     public async delete(restaurantId: string): Promise<RestaurantDocument> {
         const document = await RestaurantModel.findOneAndRemove({_id: restaurantId});
         if (!document) {
-            throw "Restaurant not found";
+            throw new IncorrectArgumentException("Restaurant not found");
         }
         return document;
     }
